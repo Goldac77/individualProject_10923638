@@ -18,7 +18,6 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
-        Main main = new Main("jdbc:mysql://localhost:3306/pharmacy", "root", "ezioauditore@77");
         launch();
     }
 }
