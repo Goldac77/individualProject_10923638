@@ -59,6 +59,7 @@ public class HelloController {
     private HashMap<Integer, Stacks<Products>> categoryStacks;
     private HashMap<Integer, Queue<Products>> categoryQueues;
     private HashMap<Integer, List<Products>> categoryLists;
+    private HashMap<Integer, Vendors> vendorMap;
 
     private PreparedStatement prepare;
     private Connection connect;
@@ -104,6 +105,7 @@ public class HelloController {
         categoryStacks = new HashMap<>();
         categoryQueues = new HashMap<>();
         categoryLists = new HashMap<>();
+        vendorMap = new HashMap<>();
         initializeCategoryMap();
     }
 
@@ -296,6 +298,9 @@ public class HelloController {
 
             Vendors vendors = new Vendors(vendorName, contact);
             int vendorID = vendors.getVendor_id();
+
+            //Add vendors to a Hashmap
+            vendorMap.put(vendorID, vendors);
 
             connectToDatabase(url, username, password);
             if(connection != null) {
