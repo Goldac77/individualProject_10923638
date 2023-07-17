@@ -64,6 +64,41 @@ public class HelloController {
     private Connection connect;
     private ResultSet result;
     private Statement statement;
+
+    //View Goods table code below...
+    @FXML
+    private TableView<ProductsTable> viewGoods_tableView;
+    @FXML
+    private TableColumn<ProductsTable, String> goodsId_col;
+    @FXML
+    private TableColumn<ProductsTable, String> goodsName_col;
+    @FXML
+    private TableColumn<ProductsTable, String> categoryId_col;
+    @FXML
+    private TableColumn<ProductsTable, String> quantity_col;
+    @FXML
+    private TableColumn<ProductsTable, String> unitPrice_col;
+
+    //View vendors table code below...
+    @FXML
+    private TableView<VendorsTable> vendors_table;
+    @FXML
+    private TableColumn<VendorsTable, String> vendorId_col;
+    @FXML
+    private TableColumn<VendorsTable, String> vendorName_col;
+    @FXML
+    private TableColumn<VendorsTable, String> contact_col;
+
+    //Add Vendors Elements
+    @FXML
+    public Button addVendorsView_btn;
+
+    public AnchorPane addVendor_view;
+    public TextField vendorName_input;
+    public TextField vendorTel_input;
+    public Button addVendor_btn;
+
+    //Constructor
     public HelloController() {
         categoryMap = new HashMap<>();
         categoryStacks = new HashMap<>();
@@ -96,6 +131,7 @@ public class HelloController {
             viewBills_view.setVisible(false);
             issuedGoods_view.setVisible(false);
             viewIssuedGoods_view.setVisible(false);
+            addVendor_view.setVisible(false);
         }
     }
 
@@ -107,6 +143,9 @@ public class HelloController {
             viewBills_view.setVisible(false);
             issuedGoods_view.setVisible(false);
             viewIssuedGoods_view.setVisible(false);
+            addVendor_view.setVisible(false);
+
+            addVendorsShowListData();
         }
     }
 
@@ -118,9 +157,45 @@ public class HelloController {
             viewBills_view.setVisible(false);
             issuedGoods_view.setVisible(false);
             viewIssuedGoods_view.setVisible(false);
+            addVendor_view.setVisible(false);
 
             addProductsShowListData();
         }
+    }
+
+    public ObservableList<VendorsTable> addVendorsListData(){
+        ObservableList<VendorsTable> VendorList = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM vendors";
+        connectToDatabase(url, username, password);
+
+        try{
+            prepare = connection.prepareStatement(sql);
+            result = prepare.executeQuery();
+            VendorsTable vendorD;
+
+            while(result.next()){
+                vendorD = new VendorsTable(result.getInt("vendor_id")
+                        , result.getString("vendor_name")
+                        , result.getString("tel"));
+                VendorList.add(vendorD);
+
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return VendorList;
+    }
+
+    private ObservableList<VendorsTable> addVendorsList;
+    public void addVendorsShowListData(){
+        addVendorsList = addVendorsListData();
+
+        vendorId_col.setCellValueFactory(new PropertyValueFactory<>("vendorID"));
+        vendorName_col.setCellValueFactory(new PropertyValueFactory<>("vendorName"));
+        contact_col.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        vendors_table.setItems(addVendorsList);
     }
 
     public ObservableList<ProductsTable> addProductsListData(){
@@ -170,6 +245,7 @@ public class HelloController {
             viewBills_view.setVisible(true);
             issuedGoods_view.setVisible(false);
             viewIssuedGoods_view.setVisible(false);
+            addVendor_view.setVisible(false);
         }
     }
 
@@ -181,6 +257,7 @@ public class HelloController {
             viewBills_view.setVisible(false);
             issuedGoods_view.setVisible(true);
             viewIssuedGoods_view.setVisible(false);
+            addVendor_view.setVisible(false);
         }
     }
 
@@ -192,11 +269,47 @@ public class HelloController {
             viewBills_view.setVisible(false);
             issuedGoods_view.setVisible(false);
             viewIssuedGoods_view.setVisible(true);
+            addVendor_view.setVisible(false);
+        }
+    }
+
+    public void showAddVendorsView(ActionEvent event) {
+        if(event.getSource() == addVendorsView_btn){
+            addGoods_view.setVisible(false);
+            viewVendors_view.setVisible(false);
+            viewGoods_view.setVisible(false);
+            viewBills_view.setVisible(false);
+            issuedGoods_view.setVisible(false);
+            viewIssuedGoods_view.setVisible(false);
+            addVendor_view.setVisible(true);
         }
     }
 
     //Below is the code for all operations of the system
     //Let's get to work...
+
+    //Method to add vendors to the system
+    public void addVendors(ActionEvent event) throws SQLException {
+        if(event.getSource() == addVendor_btn) {
+            String vendorName = vendorName_input.getText();
+            String contact = vendorTel_input.getText();
+
+            Vendors vendors = new Vendors(vendorName, contact);
+            int vendorID = vendors.getVendor_id();
+
+            connectToDatabase(url, username, password);
+            if(connection != null) {
+                String sql = "INSERT INTO vendors (vendor_id, vendor_name, tel) VALUES (?, ?, ?)";
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                stmt.setInt(1, vendorID);
+                stmt.setString(2, vendorName);
+                stmt.setString(3, contact);
+                stmt.executeUpdate();
+                stmt.close();
+            }
+            connection.close();
+        }
+    }
 
     //Method to add goods to the system
     public void addGoods(ActionEvent event) throws SQLException {
@@ -306,6 +419,7 @@ public class HelloController {
         return false;
     }
 
+    //Method to connect to the database
     public void connectToDatabase(String url, String username, String password){
         try {
             connection = DriverManager.getConnection(url, username, password);
@@ -315,6 +429,7 @@ public class HelloController {
         }
     }
 
+    //Method to remove goods from the system
     public void removeGoods(ActionEvent event) throws SQLException {
         if (event.getSource() == removeProduct_btn) {
             // Take input from text fields
@@ -421,20 +536,5 @@ public class HelloController {
             }
         }
     }
-
-    //View Goods table code below...
-    @FXML
-    private TableView<ProductsTable> viewGoods_tableView;
-    @FXML
-    private TableColumn<ProductsTable, String> goodsId_col;
-    @FXML
-    private TableColumn<ProductsTable, String> goodsName_col;
-    @FXML
-    private TableColumn<ProductsTable, String> categoryId_col;
-    @FXML
-    private TableColumn<ProductsTable, String> quantity_col;
-    @FXML
-    private TableColumn<ProductsTable, String> unitPrice_col;
-
 
 }

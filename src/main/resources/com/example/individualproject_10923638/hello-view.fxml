@@ -15,12 +15,13 @@
          <children>
             <AnchorPane prefHeight="72.0" prefWidth="1137.0">
                <children>
-                  <Button fx:id="viewVendors_btn" layoutX="23.0" layoutY="21.0" mnemonicParsing="false" onAction="#showViewVendorsView" prefHeight="30.0" prefWidth="129.0" text="View Vendors" />
-                  <Button fx:id="addGoods_btn" layoutX="183.0" layoutY="21.0" mnemonicParsing="false" onAction="#showAddGoodsView" prefHeight="30.0" prefWidth="129.0" text="Add Goods" />
-                  <Button fx:id="viewGoods_btn" layoutX="343.0" layoutY="21.0" mnemonicParsing="false" onAction="#showViewGoodsView" prefHeight="30.0" prefWidth="129.0" text="View Goods" />
-                  <Button fx:id="viewBills_btn" layoutX="495.0" layoutY="21.0" mnemonicParsing="false" onAction="#showviewBillsView" prefHeight="30.0" prefWidth="129.0" text="View Bills" />
-                  <Button fx:id="issuedGoods_btn" layoutX="667.0" layoutY="21.0" mnemonicParsing="false" onAction="#showIssuedGoodsView" prefHeight="30.0" prefWidth="129.0" text="Issued Goods" />
-                  <Button fx:id="viewIssuedGoods_btn" layoutX="825.0" layoutY="21.0" mnemonicParsing="false" onAction="#showViewIssuedGoodsView" prefHeight="30.0" prefWidth="175.0" text="View Issued Goods" />
+                  <Button fx:id="viewVendors_btn" layoutX="165.0" layoutY="21.0" mnemonicParsing="false" onAction="#showViewVendorsView" prefHeight="30.0" prefWidth="129.0" text="View Vendors" />
+                  <Button fx:id="addGoods_btn" layoutX="317.0" layoutY="21.0" mnemonicParsing="false" onAction="#showAddGoodsView" prefHeight="30.0" prefWidth="129.0" text="Add Goods" />
+                  <Button fx:id="viewGoods_btn" layoutX="481.0" layoutY="21.0" mnemonicParsing="false" onAction="#showViewGoodsView" prefHeight="30.0" prefWidth="129.0" text="View Goods" />
+                  <Button fx:id="viewBills_btn" layoutX="638.0" layoutY="21.0" mnemonicParsing="false" onAction="#showviewBillsView" prefHeight="30.0" prefWidth="129.0" text="View Bills" />
+                  <Button fx:id="issuedGoods_btn" layoutX="790.0" layoutY="21.0" mnemonicParsing="false" onAction="#showIssuedGoodsView" prefHeight="30.0" prefWidth="129.0" text="Issued Goods" />
+                  <Button fx:id="viewIssuedGoods_btn" layoutX="948.0" layoutY="21.0" mnemonicParsing="false" onAction="#showViewIssuedGoodsView" prefHeight="30.0" prefWidth="175.0" text="View Issued Goods" />
+                  <Button fx:id="addVendorsView_btn" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" onAction="#showAddVendorsView" prefHeight="30.0" prefWidth="129.0" text="Add Vendors" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="addGoods_view" layoutX="14.0" layoutY="72.0" prefHeight="340.0" prefWidth="1100.0" visible="false">
@@ -43,16 +44,16 @@
             </AnchorPane>
             <AnchorPane fx:id="viewVendors_view" layoutX="14.0" layoutY="92.0" prefHeight="563.0" prefWidth="1107.0" visible="false">
                <children>
-                  <TableView layoutX="6.0" layoutY="14.0" prefHeight="547.0" prefWidth="1100.0">
+                  <TableView fx:id="vendors_table" layoutX="6.0" layoutY="14.0" prefHeight="547.0" prefWidth="1100.0">
                     <columns>
-                      <TableColumn prefWidth="283.0" text="Vendor_ID" />
-                      <TableColumn prefWidth="510.0" text="Vendor Name" />
-                        <TableColumn prefWidth="295.0" text="Telephone" />
+                      <TableColumn fx:id="vendorId_col" prefWidth="283.0" text="Vendor_ID" />
+                      <TableColumn fx:id="vendorName_col" prefWidth="510.0" text="Vendor Name" />
+                        <TableColumn fx:id="contact_col" prefWidth="295.0" text="Telephone" />
                     </columns>
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="viewGoods_view" layoutX="14.0" layoutY="72.0" prefHeight="592.0" prefWidth="1114.0">
+            <AnchorPane fx:id="viewGoods_view" layoutX="14.0" layoutY="72.0" prefHeight="592.0" prefWidth="1114.0" visible="false">
                <children>
                   <TableView fx:id="viewGoods_tableView" layoutY="7.0" prefHeight="584.0" prefWidth="1114.0">
                     <columns>
@@ -92,6 +93,13 @@
                         <TableColumn prefWidth="226.0" text="Issue Date" />
                     </columns>
                   </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="addVendor_view" layoutX="14.0" layoutY="72.0" prefHeight="417.0" prefWidth="1107.0">
+               <children>
+                  <TextField fx:id="vendorName_input" layoutX="51.0" layoutY="63.0" promptText="Vendor Name" />
+                  <TextField fx:id="vendorTel_input" layoutX="337.0" layoutY="63.0" promptText="Vendor Contact" />
+                  <Button fx:id="addVendor_btn" layoutX="896.0" layoutY="315.0" mnemonicParsing="false" onAction="#addVendors" prefHeight="52.0" prefWidth="119.0" text="Add" />
                </children>
             </AnchorPane>
          </children>
