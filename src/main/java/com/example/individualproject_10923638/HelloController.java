@@ -17,9 +17,9 @@ public class HelloController {
     private Connection connection;
 
     //Database Credentials
-    String url = "jdbc:mysql://localhost:3306/inventory";
+    String url = "jdbc:mysql://localhost:3306/<MYSQL DB NAME>";
     String username = "root";
-    String password = "ezioauditore@77";
+    String password = "<DB PASSWORD>";
     @FXML
     public AnchorPane addGoods_view;
     @FXML
