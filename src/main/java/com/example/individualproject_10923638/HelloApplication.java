@@ -1,3 +1,5 @@
+//Name: Nicholas Amemazior
+//ID: 10923638
 package com.example.individualproject_10923638;
 
 import javafx.application.Application;
